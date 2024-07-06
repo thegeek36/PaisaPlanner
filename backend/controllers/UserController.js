@@ -1,53 +1,48 @@
 // controllers/userController.js
-const User = require('../models/User');
+const {User,validate} = require('../models/User');
 const bcrypt = require('bcryptjs');
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
-
 // Register a new user
 exports.registerUser = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { firstname, lastname, email, password } = req.body;
 
     try {
-        // Check if user already exists
-        let user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).json({ msg: 'User already exists' });
+        // Validate the input data
+        const { error } = validate(req.body);
+        if (error) {
+            return res.status(400).send({ message: error.details[0].message });
         }
 
-        // Create new user
-        user = new User({
-            name,
-            email,
-            password
-        });
+        // Check if user already exists
+        const existingUser = await User.findOne({ email: req.body.email });
+        if (existingUser) {
+            return res.status(409).send({ message: "User with given email already exists" });
+        }
 
-        // Hash password
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
+        // Generate a salt and hash the password
+        const salt = await bcrypt.genSalt(Number(process.env.SALT) || 10); // Default to 10 if SALT is not defined
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-        // Save user to database
-        await user.save();
+        // Save the new user
+        const newUser = new User({ ...req.body, password: hashedPassword });
+        await newUser.save();
 
-        // Create JWT token
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
-
-        jwt.sign(
-            payload,
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' },
-            (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-            }
-        );
+        res.status(201).send({ message: "User created successfully" });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).send({ message: 'Server error' });
     }
+};
+
+// Login user
+// Validation function
+const validateLogin = (data) => {
+    const schema = Joi.object({
+        email: Joi.string().email().required().label("Email"),
+        password: Joi.string().required().label("Password")
+    });
+    return schema.validate(data);
 };
 
 // Login user
@@ -55,37 +50,31 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Check if user exists
+        // Validate user input
+        const { error } = validateLogin(req.body);
+        if (error) {
+            return res.status(400).send({ message: error.details[0].message });
+        }
+
+        // Find user by email
         let user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ msg: 'Invalid Credentials' });
+            return res.status(400).json({ message: 'Invalid Credentials' });
         }
 
         // Validate password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ msg: 'Invalid Credentials' });
+            return res.status(401).json({ message: 'Invalid Credentials' });
         }
 
-        // Create JWT token
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
+        // Generate JWT token
+        const token = user.generateAuthToken();
+        res.status(200).send({ data: token, message: "Logged in Successfully" });
 
-        jwt.sign(
-            payload,
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' },
-            (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-            }
-        );
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).send({ message: 'Server Error' });
     }
 };
 

@@ -15,7 +15,7 @@ app.use(cors());
 try {
     const routes = readdirSync('./routes');
     routes.forEach((route) => {
-        app.use('/api/v1', require('./routes/' + route));
+        app.use('/api', require('./routes/' + route));
     });
 } catch (error) {
     console.error('Error loading routes:', error);
