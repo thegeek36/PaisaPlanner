@@ -1,4 +1,4 @@
-// controllers/userController.js
+
 const {User,validate} = require('../models/User');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
