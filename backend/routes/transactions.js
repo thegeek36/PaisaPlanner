@@ -18,9 +18,9 @@ router.post('/register', registerUser);
 router.post('/login', loginUser);
 
 // Add category route (protected route, requires authentication)
-router.post('/categories', addCategory);
+router.post('/categories',authMiddleware, addCategory);
 
 //Adding Income
-router.post('/add-income', addIncome);
+router.post('/add-income',authMiddleware, addIncome);
 
 module.exports = router;
