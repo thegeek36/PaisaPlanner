@@ -2,6 +2,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User'); // Assuming you have a User model
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+
 
 const authMiddleware = async (req, res, next) => {
     const token = req.header('Authorization').replace('Bearer ', '');
@@ -12,9 +14,10 @@ const authMiddleware = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify token
-        console.log(decoded)
-        const user = await User.findById(decoded._id); // Find user by ID in token
-        console.log(user)
+        //console.log(decoded._id)
+        //console.log(typeof decoded._id, decoded._id);
+        const user = await mongoose.model('User').findById(decoded._id);  // Find user by ID in token
+        //console.log(user)
         if (!user) {
             return res.status(401).json({ message: 'User not found' });
         }

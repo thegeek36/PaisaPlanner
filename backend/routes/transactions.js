@@ -2,7 +2,7 @@
 const router = require('express').Router();
 const { registerUser, loginUser } = require('../controllers/UserController');
 const { addCategory } = require('../controllers/categoryController');
-const { addIncome } = require('../controllers/incomeController')
+const { addIncome, getIncome, deleteIncome, updateIncome } = require('../controllers/incomeController')
 const authMiddleware = require('../middlewares/auth'); // Assuming you have an authentication middleware
 
 // Test route
@@ -23,4 +23,11 @@ router.post('/categories',authMiddleware, addCategory);
 //Adding Income
 router.post('/add-income',authMiddleware, addIncome);
 
+//Getting Income
+router.get('/get-income',authMiddleware, getIncome);
+
+//Delete Income
+router.delete('/delete-income/:id',authMiddleware,deleteIncome);
+//Update Income
+router.put('/update-income/:id', authMiddleware, updateIncome);
 module.exports = router;
