@@ -2,13 +2,14 @@ const IncomeSchema = require("../models/Income")
 const mongoose = require('mongoose')
 
 exports.addIncome = async (req,res) =>{
-    const {title,amount,category,description,date} = req.body
+    const {title,amount,category,description,date,type} = req.body
     
     const income = IncomeSchema({
         title,
         amount,
         category,
         description,
+        type,
         date,
         user: req.user._id 
     })
@@ -68,7 +69,7 @@ exports.updateIncome = async (req, res) => {
     try {
         const { id } = req.params;
         const userId = req.user._id;
-        const { title, amount, category, description } = req.body;
+        const { title, amount, category, description,type } = req.body;
 
         // Validate ObjectId
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -87,7 +88,7 @@ exports.updateIncome = async (req, res) => {
         income.amount = amount || income.amount;
         income.category = category || income.category;
         income.description = description || income.description;
-
+        income.type = type || income.type;
         // Save the updated income
         const updatedIncome = await income.save();
 

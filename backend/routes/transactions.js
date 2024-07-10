@@ -2,6 +2,7 @@
 const router = require('express').Router();
 const { registerUser, loginUser } = require('../controllers/UserController');
 const { addCategory } = require('../controllers/categoryController');
+const { addExpense, getExpenses, deleteExpense, updateExpense } = require('../controllers/expenseController');
 const { addIncome, getIncome, deleteIncome, updateIncome } = require('../controllers/incomeController')
 const authMiddleware = require('../middlewares/auth'); // Assuming you have an authentication middleware
 
@@ -30,4 +31,14 @@ router.get('/get-income',authMiddleware, getIncome);
 router.delete('/delete-income/:id',authMiddleware,deleteIncome);
 //Update Income
 router.put('/update-income/:id', authMiddleware, updateIncome);
+
+//Add Expense
+router.post('/add-expense',authMiddleware, addExpense);
+//Get Expense
+router.get('/get-expense',authMiddleware, getExpenses);
+//Delete Expense
+router.delete('/delete-income/:id',authMiddleware, deleteExpense);
+//Update Expense
+router.put('/update-expense/:id', authMiddleware, updateExpense);
+
 module.exports = router;

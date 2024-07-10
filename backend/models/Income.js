@@ -2,10 +2,10 @@
 const mongoose = require('mongoose');
 
 const IncomeSchema = new mongoose.Schema({
-    title:{
-        type:String,
-        required:true,
-        trim:true
+    title: {
+        type: String,
+        required: true,
+        trim: true
     },
     amount: {
         type: Number,
@@ -28,6 +28,10 @@ const IncomeSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    type: {
+        type: String,
+        default:"income"
     }
 }, { timestamps: true });
 

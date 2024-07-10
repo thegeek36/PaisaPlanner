@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // Define the Expense Schema
-const expenseSchema = new mongoose.Schema({
+const ExpenseSchema = new mongoose.Schema({
     amount: {
         type: Number,
         required: true,
@@ -26,7 +26,11 @@ const expenseSchema = new mongoose.Schema({
         ref: 'User', // Reference to the User model
         required: true,
     },
+    type: {
+        type: String,
+        default:"expense"// Ensure the value can only be 'income' or 'expense'
+    }
 }, { timestamps: true }); // Add createdAt and updatedAt fields
 
 // Export the Expense Model
-module.exports = mongoose.model('Expense', expenseSchema);
+module.exports = mongoose.model('Expense', ExpenseSchema);
