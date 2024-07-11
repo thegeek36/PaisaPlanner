@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import styles from "./styles.module.css";
+//import styles from "./styles.module.css";
 
 const Login = () => {
 	const [data, setData] = useState({ email: "", password: "" });
