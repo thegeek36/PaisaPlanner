@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
-//import styles from './styles.module.css';
 import { useState } from 'react';
 import axios from 'axios';
+import loginImage from '../../assets/login.jpg'; // Ensure this path is correct
 
 const Signup = () => {
     const [error, setError] = useState("");
@@ -30,7 +30,7 @@ const Signup = () => {
             console.log(res.message);
             navigate('/login');
           } catch (err) {
-            console.error("Error: ", err); // Log error to debug
+            console.error("Error: ", err);
             if (err.response && err.response.status >= 400 && err.response.status < 500) {
                 setError(err.response.data.message);
             } else {
@@ -40,26 +40,34 @@ const Signup = () => {
     };
 
     return (
-        <div className={styles.signup_container}>
-            <div className={styles.signup_form_container}>
-                <div className={styles.left}>
-                    <h1>Welcome Back</h1>
-                    <Link to="/login">
-                        <button type='button' className={styles.white_btn}>
-                            Sign In
-                        </button>
-                    </Link>
-                </div>
-                <div className={styles.right}>
-                    <form className={styles.form_container} onSubmit={handleSubmit}>
-                        <h1>Create Account</h1>
-                        <input type='text' placeholder='First Name' name='firstname' value={data.firstName} onChange={handleChange} className={styles.input} required />
-                        <input type='text' placeholder='Last Name' name='lastname' value={data.lastName} onChange={handleChange} className={styles.input} required />
-                        <input type='email' placeholder='Email' name='email' value={data.email} onChange={handleChange} className={styles.input} required />
-                        <input type='password' placeholder='Password' name='password' value={data.password} onChange={handleChange} className={styles.input} required />
-                        {error && <div className={styles.error_message}>{error}</div>}
-                        <button type='submit' className={styles.green_btn}>Sign Up</button>
+        <div className="flex min-h-screen bg-gray-100">
+            <div className="flex flex-col md:flex-row m-auto bg-white rounded-lg shadow-lg overflow-hidden max-w-4xl w-full">
+                <div className="w-full md:w-1/2 p-8">
+                    <h1 className="text-2xl font-bold mb-2">Paisa Planner</h1>
+                    <p className="text-gray-600 mb-6">Create your account and start managing your expenses efficiently.</p>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <input type='text' placeholder='First Name' name='firstname' value={data.firstname} onChange={handleChange} className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        <input type='text' placeholder='Last Name' name='lastname' value={data.lastname} onChange={handleChange} className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        <input type='email' placeholder='Email' name='email' value={data.email} onChange={handleChange} className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        <input type='password' placeholder='Password' name='password' value={data.password} onChange={handleChange} className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        {error && <div className="text-red-500">{error}</div>}
+                        <button type='submit' className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300">Sign Up</button>
                     </form>
+                    <p className="mt-4 text-sm text-gray-600">By signing up, you agree to our Terms and Privacy Policy.</p>
+                    <p className="mt-2 text-sm text-gray-600">Your data is safe and secure with us.</p>
+                    <div className="mt-6 text-center">
+                        <p className="text-gray-600">Already have an account?</p>
+                        <Link to="/login" className="text-blue-500 hover:underline">
+                            Sign In
+                        </Link>
+                    </div>
+                </div>
+                <div className="w-full md:w-1/2 hidden md:block">
+                    <img
+                        src={loginImage}
+                        alt="Expense Management"
+                        className="w-full h-full object-cover"
+                    />
                 </div>
             </div>
         </div>
