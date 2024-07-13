@@ -2,12 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaGithub, FaSignInAlt, FaUserPlus, FaChartLine, FaMoneyBillWave, FaCalendarAlt, FaDatabase } from 'react-icons/fa';
 import { SiMongodb, SiExpress, SiReact, SiNodedotjs, SiTailwindcss } from 'react-icons/si';
-
+import { motion } from "framer-motion"
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-gray-100">
-      <nav className="bg-blue-600 text-white p-5">
-        <div className="container mx-auto flex justify-between items-center">
+      <motion.nav 
+        className="bg-blue-600 text-white p-5"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 100 }} className="bg-blue-600 text-white p-5">
+        <motion.div whenInview ={{ x: 100 }}
+            transition={{ ease: "easeOut", duration: 2 }} className="container mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold">Paisa Planner</h1>
           <div>
             <Link to="/login" className="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors mr-2">
@@ -17,12 +22,16 @@ const LandingPage = () => {
               <FaUserPlus className="inline mr-2" /> Sign Up
             </Link>
           </div>
-        </div>
-      </nav>
+        </motion.div>
+      </motion.nav>
 
       <main className="container mx-auto px-4 py-8">
         <section className="text-center py-12">
-          <h2 className="text-6xl font-bold mb-4">Welcome to Paisa Planner.</h2>
+          <motion.h2 
+            whileInView={{opacity:1,x:0}}
+            initial={{opacity:0,x:-100}}
+            transition={{ duration: 0.8 }}
+            className="text-6xl font-bold mb-4">Welcome to Paisa Planner.</motion.h2>
           <p className="text-2xl text-fuchsia-800 font-bold mb-8">Your trusted companion for financial wellness.</p>
           <Link to="/signup" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors text-lg">
             Get Started
