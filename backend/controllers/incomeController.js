@@ -35,8 +35,8 @@ exports.getIncome = async (req, res) => {
     try {
         const userId = req.user._id; // Assuming you have user ID in req.user.id from authentication middleware
 
-        const incomes = await IncomeSchema.find({ user: userId }).sort({ date: -1 });
-
+        // const incomes = await IncomeSchema.find({ user: userId });
+        const incomes = await IncomeSchema.find({ user: userId }).populate('category', 'name').sort({ date: -1 });
         res.status(200).json(incomes);
     } catch (error) {
         console.log("Error", error);

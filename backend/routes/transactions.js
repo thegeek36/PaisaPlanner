@@ -1,11 +1,12 @@
 // routes/transaction.js
 const router = require('express').Router();
 const { registerUser, loginUser } = require('../controllers/UserController');
-const { addCategory } = require('../controllers/categoryController');
+const { addCategory, getCategories } = require('../controllers/categoryController');
 const { addExpense, getExpenses, deleteExpense, updateExpense } = require('../controllers/expenseController');
 const { addIncome, getIncome, deleteIncome, updateIncome } = require('../controllers/incomeController')
 const authMiddleware = require('../middlewares/auth'); // Assuming you have an authentication middleware
-
+const UserSummaryController = require('../controllers/UserSummaryController')
+const {forgotPassword,resetPassword} = require('../controllers/PasswordController')
 // Test route
 router.get('/test', (req, res) => {
     res.send('Hello World');
@@ -18,8 +19,7 @@ router.post('/register', registerUser);
 // User login route
 router.post('/login', loginUser);
 
-// Add category route (protected route, requires authentication)
-router.post('/categories',authMiddleware, addCategory);
+
 
 //Adding Income
 router.post('/add-income',authMiddleware, addIncome);
@@ -37,8 +37,21 @@ router.post('/add-expense',authMiddleware, addExpense);
 //Get Expense
 router.get('/get-expense',authMiddleware, getExpenses);
 //Delete Expense
-router.delete('/delete-income/:id',authMiddleware, deleteExpense);
+router.delete('/delete-expense/:id',authMiddleware, deleteExpense);
 //Update Expense
 router.put('/update-expense/:id', authMiddleware, updateExpense);
 
+
+// Add category route (protected route, requires authentication)
+router.post('/add-category',authMiddleware, addCategory);
+//Get Categories
+router.get('/get-category',authMiddleware,getCategories);
+//Put categories
+
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
+
+
+//User Summary
+router.get('/summary', authMiddleware, UserSummaryController.getUserSummary);
 module.exports = router;

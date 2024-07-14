@@ -2,22 +2,24 @@ const ExpenseSchema = require("../models/Expense");
 const mongoose = require('mongoose');
 
 exports.addExpense = async (req, res) => {
-    const { amount, category, description, date } = req.body;
+    const { amount, category, description, date,title } = req.body;
 
     const expense = new ExpenseSchema({
         amount,
         category,
         description,
         date,
+        title,
         user: req.user._id,
         type: 'expense'
     });
 
+
     try {
-        if (!category || !description) {
+        if (!category) {
             return res.status(404).json({ message: 'Please fill all fields' });
         }
-        if (amount <= 0 || typeof amount !== 'number') {
+        if (amount <= 0 || !amount === 'number') {
             return res.status(404).json({ message: 'Amount must be a positive number' });
         }
         await expense.save();
@@ -32,7 +34,7 @@ exports.getExpenses = async (req, res) => {
     try {
         const userId = req.user._id;
 
-        const expenses = await ExpenseSchema.find({ user: userId }).sort({ date: -1 });
+        const expenses = await ExpenseSchema.find({ user: userId }).populate('category', 'name').sort({ date: -1 });
 
         res.status(200).json(expenses);
     } catch (error) {

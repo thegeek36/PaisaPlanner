@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 
 // Define the Expense Schema
 const ExpenseSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+        trim: true
+    },
     amount: {
         type: Number,
         required: true,
@@ -10,7 +15,8 @@ const ExpenseSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        trim: true, // Remove leading and trailing whitespace
+        default: '',
+       
     },
     date: {
         type: Date,

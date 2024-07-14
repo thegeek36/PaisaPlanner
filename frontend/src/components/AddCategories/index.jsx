@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useTable } from 'react-table';
 import { toast } from 'react-toastify';
 import SideNav from '../SideNav';
@@ -8,59 +7,28 @@ import { MdDelete } from "react-icons/md";
 import axiosInstance from '../../axisoInstance';
 
 
-
-const AddIncome = () => {
+const AddCategories = () => {
     const [formData, setFormData] = useState({
-        title: '',
-        amount: '',
-        category: '',
-        description: ''
+        name: '',
+        type: ''
     });
     const [categories, setCategories] = useState([]);
-    const [incomes, setIncomes] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [editId, setEditId] = useState(null);
-    const [totalIncome, setTotalIncome] = useState(0);
-    const [totalAmount, setTotalAmount] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const authHeader = {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }
-    };
 
     useEffect(() => {
         fetchCategories();
-        fetchIncomes();
     }, []);
 
     const fetchCategories = async () => {
         try {
             const response = await axiosInstance.get('get-category');
-            setCategories(response.data.filter(cat => cat.type === 'income'));
+            setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
             toast.error('Failed to fetch categories');
         }
-    };
-
-    const fetchIncomes = async () => {
-        try {
-            const response = await axiosInstance.get('get-income');
-            setIncomes(response.data);
-            calculateTotals(response.data);
-        } catch (error) {
-            console.error('Error fetching incomes:', error);
-            toast.error('Failed to fetch incomes');
-        }
-    };
-
-    const calculateTotals = (incomes) => {
-        const totalIncome = incomes.length;
-        const totalAmount = incomes.reduce((sum, income) => sum + parseFloat(income.amount), 0);
-        setTotalIncome(totalIncome);
-        setTotalAmount(totalAmount);
     };
 
     const handleChange = (e) => {
@@ -71,50 +39,48 @@ const AddIncome = () => {
         e.preventDefault();
         try {
             if (isEditing) {
-                await axiosInstance.put(`update-income/${editId}`, formData);
-                toast.success('Income updated successfully');
+                await axiosInstance.put(`update-category/${editId}`, formData);
+                toast.success('Category updated successfully');
             } else {
-                await axiosInstance.post('add-income', formData);
-                toast.success('Income added successfully');
+                await axiosInstance.post('add-category', formData);
+                toast.success('Category added successfully');
             }
-            setFormData({ title: '', amount: '', category: '', description: '' });
+            setFormData({ name: '', type: '' });
             setIsEditing(false);
             setEditId(null);
-            fetchIncomes();
+            fetchCategories();
             setIsModalOpen(false);
         } catch (error) {
-            console.error('Error submitting income:', error);
-            toast.error('Failed to submit income');
+            console.error('Error submitting category:', error);
+            toast.error('Failed to submit category');
         }
     };
 
-    const handleEdit = (income) => {
+    const handleEdit = (category) => {
         setFormData({
-            ...income,
-            category: income.category._id
+            name: category.name,
+            type: category.type
         });
         setIsEditing(true);
-        setEditId(income._id);
+        setEditId(category._id);
         setIsModalOpen(true);
     };
 
     const handleDelete = async (id) => {
         try {
-            await axiosInstance.delete(`delete-income/${id}`);
-            toast.success('Income deleted successfully');
-            fetchIncomes();
+            await axiosInstance.delete(`delete-category/${id}`);
+            toast.success('Category deleted successfully');
+            fetchCategories();
         } catch (error) {
-            console.error('Error deleting income:', error);
-            toast.error('Failed to delete income');
+            console.error('Error deleting category:', error);
+            toast.error('Failed to delete category');
         }
     };
 
     const columns = React.useMemo(
         () => [
-            { Header: 'Title', accessor: 'title' },
-            { Header: 'Amount', accessor: 'amount' },
-            { Header: 'Category', accessor: 'category.name' },
-            { Header: 'Description', accessor: 'description' },
+            { Header: 'Name', accessor: 'name' },
+            { Header: 'Type', accessor: 'type' },
             {
                 Header: 'Actions',
                 Cell: ({ row }) => (
@@ -134,32 +100,22 @@ const AddIncome = () => {
         headerGroups,
         rows,
         prepareRow,
-    } = useTable({ columns, data: incomes });
+    } = useTable({ columns, data: categories });
 
     return (
         <SideNav>
-            <h2 className="text-2xl font-semibold mb-6 text-gray-800">Add Income</h2>
-            <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-blue-300 p-4 rounded-md shadow-md">
-                    <h3 className="text-lg font-medium">Total Income</h3>
-                    <p className="text-2xl font-bold">{totalIncome}</p>
-                </div>
-                <div className="bg-green-300 p-4 rounded-md shadow-md">
-                    <h3 className="text-lg font-medium">Total Amount</h3>
-                    <p className="text-2xl font-bold">₹{totalAmount.toFixed(2)}</p>
-                </div>
-            </div>
+            <h2 className="text-2xl font-semibold mb-6 text-gray-800">Add Categories</h2>
             <button
                 onClick={() => setIsModalOpen(true)}
                 className="bg-blue-500 text-white px-4 py-2 rounded-md mb-6 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
-                Add Income
+                Add Category
             </button>
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                     <div className="bg-white p-6 rounded-xl shadow-md max-w-md w-full">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-semibold">{isEditing ? 'Edit Income' : 'Add Income'}</h3>
+                            <h3 className="text-xl font-semibold">{isEditing ? 'Edit Category' : 'Add Category'}</h3>
                             <button 
                                 onClick={() => setIsModalOpen(false)}
                                 className="text-gray-500 hover:text-gray-700"
@@ -169,59 +125,34 @@ const AddIncome = () => {
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">
-                                <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-700">Title</label>
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-700">Name</label>
                                 <input
                                     type="text"
-                                    id="title"
-                                    name="title"
-                                    value={formData.title}
+                                    id="name"
+                                    name="name"
+                                    value={formData.name}
                                     onChange={handleChange}
                                     required
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="amount" className="block mb-2 text-sm font-medium text-gray-700">Amount</label>
-                                <input
-                                    type="number"
-                                    id="amount"
-                                    name="amount"
-                                    value={formData.amount}
-                                    onChange={handleChange}
-                                    required
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-700">Category</label>
+                                <label htmlFor="type" className="block mb-2 text-sm font-medium text-gray-700">Type</label>
                                 <select
-                                    id="category"
-                                    name="category"
-                                    value={formData.category}
+                                    id="type"
+                                    name="type"
+                                    value={formData.type}
                                     onChange={handleChange}
                                     required
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 >
-                                    <option value="">Select a category</option>
-                                    {categories.map((category) => (
-                                        <option key={category._id} value={category._id}>
-                                            {category.name}
-                                        </option>
-                                    ))}
+                                    <option value="">Select a type</option>
+                                    <option value="income">Income</option>
+                                    <option value="expense">Expense</option>
                                 </select>
                             </div>
-                            <div className="mb-4">
-                                <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-700">Description</label>
-                                <textarea
-                                    id="description"
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                ></textarea>
-                            </div>
                             <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 w-full">
-                                {isEditing ? 'Update Income' : 'Add Income'}
+                                {isEditing ? 'Update Category' : 'Add Category'}
                             </button>
                         </form>
                     </div>
@@ -244,7 +175,7 @@ const AddIncome = () => {
                         {rows.map(row => {
                             prepareRow(row)
                             return (
-                                <tr {...row.getRowProps()} className="bg-gray-300 ">
+                                <tr {...row.getRowProps()} className="bg-gray-300">
                                     {row.cells.map(cell => {
                                         return (
                                             <td {...cell.getCellProps()} className="border p-2 text-sm text-gray-700">
@@ -262,4 +193,4 @@ const AddIncome = () => {
     );
 };
 
-export default AddIncome;
+export default AddCategories;

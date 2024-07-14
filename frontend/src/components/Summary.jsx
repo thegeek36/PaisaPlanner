@@ -1,36 +1,50 @@
-// Summary.js
 import React from 'react';
 import { FaMoneyBillWave, FaReceipt, FaPiggyBank } from "react-icons/fa";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 
 const Summary = ({ data }) => {
   return (
-    <div className="flex flex-wrap justify-between p-4 mb-6">
-      <div className="bg-gray-100 p-4 rounded-lg text-green-800 text-xl font-bold shadow-md  w-full sm:w-1/2 lg:w-1/4 mb-4 sm:mb-0 relative">
-        <span className="absolute top-1 left-1 text-sm text-gray-600">Total Income</span>
+    <div className="flex flex-wrap mb-6 gap-4">
+      {/* Total Income */}
+      <div className="bg-green-300 p-4 rounded-lg text-green-800 text-xl font-bold shadow-md w-full sm:w-1/5 lg:w-1/5 mb-4 sm:mb-0 relative">
+        <div className='flex items-center justify-center gap-2 text-black'>
+          <span>Income</span>
+          <FaMoneyBillTrendUp/>
+        </div>
         <div className="flex items-center justify-center mt-4">
-          <FaMoneyBillTrendUp className="mr-2" />
           <span>{data.totalIncome}</span>
         </div>
       </div>
-      <div className="bg-gray-100 p-4 rounded-lg text-red-600 text-xl font-bold shadow-md w-full sm:w-1/2 lg:w-1/4 mb-4 sm:mb-0 relative">
-        <span className="absolute top-1 left-1 text-sm text-gray-600">Total Expense</span>
+
+      {/* Total Expense */}
+      <div className="bg-red-300 p-4 rounded-lg text-red-800 text-xl font-bold shadow-md w-full sm:w-1/5 lg:w-1/5 mb-4 sm:mb-0 relative">
+        <div className='flex items-center justify-center gap-2 text-black'>
+          <span>Expense</span>
+          <FaMoneyBillWave />
+        </div>
         <div className="flex items-center justify-center mt-4">
-          <FaMoneyBillWave className="mr-2" />
           <span>{data.totalExpense}</span>
         </div>
       </div>
-      <div className="bg-gray-100 p-4 rounded-lg text-blue-600 text-xl font-bold shadow-md w-full sm:w-1/2 lg:w-1/4 mb-4 sm:mb-0 relative">
-        <span className="absolute top-1 left-1 text-sm text-gray-600">Total Recurring Expense</span>
+
+      {/* Total Subscriptions */}
+      <div className="bg-blue-300 p-4 rounded-lg text-blue-600 text-xl font-bold shadow-md w-full sm:w-1/5 lg:w-1/5 mb-4 sm:mb-0 relative">
+        <div className='flex items-center justify-center gap-2 text-black'>
+          <span>Subscriptions</span>
+          <FaReceipt />
+        </div>
         <div className="flex items-center justify-center mt-4">
-          <FaReceipt className="mr-2" />
           <span>{data.totalRecurringIncome}</span>
         </div>
       </div>
-      <div className="bg-gray-100 p-4 rounded-lg text-purple-600 text-xl font-bold shadow-md w-full sm:w-1/2 lg:w-1/4 relative">
-        <span className="absolute top-1 left-1 text-sm text-gray-600">Total Saving</span>
+
+      {/* Total Savings */}
+      <div className="bg-pink-300 p-4 rounded-lg text-purple-600 text-xl font-bold shadow-md w-full sm:w-1/5 lg:w-1/5 relative">
+        <div className='flex items-center justify-center gap-2 text-black'>
+          <span>Savings</span>
+          <FaPiggyBank />
+        </div>
         <div className="flex items-center justify-center mt-4">
-          <FaPiggyBank className="mr-2" />
           <span>{data.totalSaving}</span>
         </div>
       </div>

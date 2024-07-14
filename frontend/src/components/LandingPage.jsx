@@ -7,7 +7,6 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <motion.nav 
-        className="bg-blue-600 text-white p-5"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 100 }} className="bg-blue-600 text-white p-5">
@@ -40,29 +39,34 @@ const LandingPage = () => {
 
         <section className="mb-12">
         <h2 className="text-3xl font-semibold mb-6 text-center">Features</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             <FeatureCard icon={<FaChartLine />} title="Attractive Dashboard" description="Visualize your finances at a glance" />
             <FeatureCard icon={<FaMoneyBillWave />} title="Easy Expense Management" description="Track and categorize your spending effortlessly" />
             <FeatureCard icon={<FaDatabase />} title="Financial Tracking" description="Keep a close eye on your financial health" />
             <FeatureCard icon={<FaCalendarAlt />} title="Subscription Management" description="Never forget a subscription payment again" />
-        </div>
+        </motion.div>
         </section>
 
-        <section className="mb-12 bg-blue-50 p-8 rounded-lg text-center">
+        <motion.section initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1.1 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }} className="mb-12 bg-blue-50 p-8 rounded-lg text-center">
           <h2 className="text-3xl font-semibold mb-4">Get Started Today</h2>
           <p className="mb-6 text-lg">Join thousands of users who are taking control of their finances with Paisa Planner.</p>
           <Link to="/signup" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors text-lg">
             Create Your Account
           </Link>
-        </section>
+        </motion.section>
 
         <section className="mb-12">
-          <h2 className="text-3xl font-semibold mb-6 text-center">Tech Stack</h2>
+          <motion.h2 whileInView={{opacity:1,x:0}}
+        initial={{opacity:0,x:-100}}
+        transition={{duration:1.5}}  className="text-3xl font-semibold mb-6 text-center">Tech Stack</motion.h2>
           <div className="flex justify-center space-x-8">
             <TechIcon icon={<SiMongodb className = "text-green-800" />} name="MongoDB" />
             <TechIcon icon={<SiExpress className = "text-gray-800"/>} name="Express.js" />
             <TechIcon icon={<SiReact className = "text-violet-800" />} name="React" />
-            <TechIcon icon={<SiNodedotjs  className = "text-green-600"/>} name="Node.js" />
+                <TechIcon icon={<SiNodedotjs  className = "text-green-600"/>} name="Node.js" />
             <TechIcon icon={<SiTailwindcss className = "text-cyan-800" />} name="Tailwind CSS" />
           </div>
         </section>

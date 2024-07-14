@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const Joi = require('joi'); 
+const { addDefaultCategories } = require('./categoryController');
 // Register a new user
 exports.registerUser = async (req, res) => {
     const { firstname, lastname, email, password } = req.body;
@@ -28,6 +29,9 @@ exports.registerUser = async (req, res) => {
         // Save the new user
         const newUser = new User({ ...req.body, password: hashedPassword });
         await newUser.save();
+
+        //Add the default Categories
+        await addDefaultCategories(newUser._id);
 
         res.status(201).send({ message: "User created successfully" });
     } catch (err) {

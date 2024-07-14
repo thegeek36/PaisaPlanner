@@ -57,15 +57,17 @@ const Login = () => {
               className="w-full px-3 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {error && <div className="text-red-500 mb-4">{error}</div>}
+            <Link to="/forgetpass"> 
             <button
               type="submit"
               className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
             >
               Sign In
             </button>
+            </Link>
           </form>
           <div className="mt-4 text-center">
-            <Link to="/forgot-password" className="text-blue-500 hover:underline">
+            <Link to="/forgot-pass" className="text-blue-500 hover:underline">
               Forgot Password?
             </Link>
           </div>

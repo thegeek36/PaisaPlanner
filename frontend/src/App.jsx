@@ -9,12 +9,17 @@ import AddExpense from "./components/AddExpense";
 import Settings from "./components/Settings";
 import AddIncome from "./components/AddIncome";
 import LandingPage from "./components/LandingPage"
+import { ToastContainer } from 'react-toastify';
+import AddCategories from "./components/AddCategories";
+import ForgetPass from "./components/ForgetPass";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const user = localStorage.getItem("token");
   const location = useLocation();
 
   return (
+    <> 
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={location.pathname}
@@ -35,6 +40,8 @@ function App() {
               <Route path="/add-expense" element={<AddExpense />} />
               <Route path="/add-income" element={<AddIncome />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/categories" element={<AddCategories />} />
+              <Route path="/forget-pass" element={<ForgetPass />} />
               <Route path="*" element={<Navigate replace to="/" />} />
             </>
           ) : (
@@ -42,12 +49,15 @@ function App() {
               <Route path="/" element={<LandingPage />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/forgot-pass" element={<ForgetPass />} />
               <Route path="*" element={<Navigate replace to="/" />} />
             </>
           )}
         </Routes>
       </motion.div>
     </AnimatePresence>
+    <ToastContainer />
+          </>
   );
 }
 
