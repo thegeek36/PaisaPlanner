@@ -13,6 +13,7 @@ import { ToastContainer } from 'react-toastify';
 import AddCategories from "./components/AddCategories";
 import AddSubscriptions from "./components/AddSubscriptions";
 import ForgetPass from "./components/ForgetPass";
+import ResetPass from "./components/ResetPass";
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-pass" element={<ForgetPass />} />
+              <Route path="/reset-password/:token" element={<ResetPass/>} />
               <Route path="*" element={<Navigate replace to="/" />} />
             </>
           )}

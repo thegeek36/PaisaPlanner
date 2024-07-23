@@ -8,8 +8,8 @@ require('dotenv').config();
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: "myexpensetracker01@gmail.com",
-    pass:"tosfrcnwgiyknjce"
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD
     // pass: process.env.EMAIL_PASSWORD
   }
 });
@@ -32,7 +32,7 @@ exports.forgotPassword = async (req, res) => {
     );
 
     // Create reset URL
-    const resetUrl = `http://localhost:5000/reset-password/${resetToken}`;
+    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
 
     // Email content
     const mailOptions = {
