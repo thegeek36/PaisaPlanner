@@ -21,7 +21,7 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const url = "http://localhost:5000/api/register";
+            const url = "https://paisaplanner-1.onrender.com/api/register";
             const { data: res } = await axios.post(url, data, {
               headers: {
                 'Content-Type': 'application/json'

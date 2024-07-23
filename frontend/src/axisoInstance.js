@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: 'https://paisaplanner-1.onrender.com/api/',
 });
 
 axiosInstance.interceptors.response.use(

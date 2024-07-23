@@ -32,7 +32,7 @@ exports.forgotPassword = async (req, res) => {
     );
 
     // Create reset URL
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetUrl = `https://paisa-planner.vercel.app/reset-password/${resetToken}`;
 
     // Email content
     const mailOptions = {
