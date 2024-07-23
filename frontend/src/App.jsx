@@ -11,11 +11,13 @@ import AddIncome from "./components/AddIncome";
 import LandingPage from "./components/LandingPage"
 import { ToastContainer } from 'react-toastify';
 import AddCategories from "./components/AddCategories";
+import AddSubscriptions from "./components/AddSubscriptions";
 import ForgetPass from "./components/ForgetPass";
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const user = localStorage.getItem("token");
+  console.log(user);
   const location = useLocation();
 
   return (
@@ -41,7 +43,7 @@ function App() {
               <Route path="/add-income" element={<AddIncome />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/categories" element={<AddCategories />} />
-              <Route path="/forget-pass" element={<ForgetPass />} />
+              <Route path="/subscriptions" element={<AddSubscriptions />} />
               <Route path="*" element={<Navigate replace to="/" />} />
             </>
           ) : (

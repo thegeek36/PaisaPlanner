@@ -7,6 +7,9 @@ const { addIncome, getIncome, deleteIncome, updateIncome } = require('../control
 const authMiddleware = require('../middlewares/auth'); // Assuming you have an authentication middleware
 const UserSummaryController = require('../controllers/UserSummaryController')
 const {forgotPassword,resetPassword} = require('../controllers/PasswordController')
+const { addSubscription,getSubscriptions,updateSubscription,deleteSubscription } = require('../controllers/subscriptionsController');
+
+
 // Test route
 router.get('/test', (req, res) => {
     res.send('Hello World');
@@ -50,6 +53,18 @@ router.get('/get-category',authMiddleware,getCategories);
 
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
+
+// Add subscription route (protected route, requires authentication)
+router.post('/add-subscription', authMiddleware, addSubscription);
+
+// Get subscriptions (protected route, requires authentication)
+router.get('/get-subscriptions', authMiddleware, getSubscriptions);
+
+// Update subscription (protected route, requires authentication)
+router.put('/update-subscription/:id', authMiddleware, updateSubscription);
+
+// Delete subscription (protected route, requires authentication)
+router.delete('/delete-subscription/:id', authMiddleware, deleteSubscription);
 
 
 //User Summary

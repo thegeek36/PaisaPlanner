@@ -1,10 +1,14 @@
 import { useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
 import loginImage from '../../assets/login.jpg';
+import axiosInstance from '../../axisoInstance';
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
@@ -13,18 +17,19 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:5000/api/login";
-      const { data: res } = await axios.post(url, data);
-      localStorage.setItem("token", res.data);
-      window.location = "/";
-    } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
-        setError(error.response.data.message);
+      const response = await axiosInstance.post('/login', data);
+      const token = response.data.data;
+      console.log("here1",token);
+      if (token) {
+        localStorage.setItem('token', token);
+        //toast.success('Login successful');
+        navigate('/'); // Navigate to the main page after successful login
+      } else {
+        setError('Invalid login response');
       }
+    } catch (error) {
+      console.error('Login failed:', error);
+      setError('Login failed. Please check your credentials and try again.');
     }
   };
 
@@ -57,14 +62,12 @@ const Login = () => {
               className="w-full px-3 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {error && <div className="text-red-500 mb-4">{error}</div>}
-            <Link to="/forgetpass"> 
             <button
               type="submit"
               className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
             >
               Sign In
             </button>
-            </Link>
           </form>
           <div className="mt-4 text-center">
             <Link to="/forgot-pass" className="text-blue-500 hover:underline">

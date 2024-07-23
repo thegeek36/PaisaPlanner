@@ -39,14 +39,6 @@ UserSchema.methods.generateAuthToken = function () {
     return token;
 };
 
-// Middleware to hash the password before saving the user
-// UserSchema.pre('save', async function (next) {
-//     if (!this.isModified('password')) return next(); // If password is not modified, skip hashing
-//     const salt = await bcrypt.genSalt(10); // Generate salt for hashing
-//     this.password = await bcrypt.hash(this.password, salt); // Hash the password
-//     next(); // Move to the next middleware
-// });
-
 // Function to validate user data using Joi
 const validate = (data) => {
     const schema = Joi.object({
@@ -59,6 +51,7 @@ const validate = (data) => {
 }
 
 // Export the User model and the validate function
+
 module.exports = {
     User: mongoose.model('User', UserSchema),
     validate

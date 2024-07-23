@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiHome, FiPlusCircle, FiDollarSign, FiSettings, FiUser, FiMenu, FiX } from 'react-icons/fi';
+import { FaReceipt } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 import { useLocation } from 'react-router-dom';
 
@@ -39,15 +40,18 @@ const SideNav = ({ children, data }) => {
                 <Link to="/add-income" className={`block py-2.5 px-4 rounded-lg transition duration-200 ${isActive('/add-income') ? 'bg-blue-700 text-white border' : 'hover:bg-blue-700 hover:text-white'}`}>
                     <FiDollarSign className="inline-block mr-2" /> Add Income
                 </Link>
+                <Link to="/subscriptions" className={`block py-2.5 px-4 rounded-lg transition duration-200 ${isActive('/subscriptions') ? 'bg-blue-700 text-white border' : 'hover:bg-blue-700 hover:text-white'}`}>
+                    <FaReceipt className="inline-block mr-2" /> Add Subscriptions
+                </Link>
                 <Link to="/categories" className={`block py-2.5 px-4 rounded-lg transition duration-200 ${isActive('/categories') ? 'bg-blue-700 text-white border' : 'hover:bg-blue-700 hover:text-white'}`}>
                     <FiUser className="inline-block mr-2" /> Add Categories
                 </Link>
                 <Link to="/settings" className={`block py-2.5 px-4 rounded-lg transition duration-200 ${isActive('/settings') ? 'bg-blue-700 text-white border' : 'hover:bg-blue-700 hover:text-white'}`}>
                     <FiSettings className="inline-block mr-2" /> Settings
                 </Link>
-                <Link to="/profile" className={`block py-2.5 px-4 rounded-lg transition duration-200 ${isActive('/profile') ? 'bg-blue-700 text-white border' : 'hover:bg-blue-700 hover:text-white'}`}>
+                {/* <Link to="/profile" className={`block py-2.5 px-4 rounded-lg transition duration-200 ${isActive('/profile') ? 'bg-blue-700 text-white border' : 'hover:bg-blue-700 hover:text-white'}`}>
                     <FiUser className="inline-block mr-2" /> User Profile
-                </Link>
+                </Link> */}
             </nav>
             </aside>
 

@@ -34,7 +34,7 @@ const Summary = ({ data }) => {
           <FaReceipt />
         </div>
         <div className="flex items-center justify-center mt-4">
-          <span>{data.totalRecurringIncome}</span>
+          <span>{data.totalSubscription}</span>
         </div>
       </div>
 

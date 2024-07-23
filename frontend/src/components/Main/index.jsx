@@ -4,7 +4,7 @@ import Summary from '../Summary';
 import Charts from '../Charts';
 import axiosInstance from '../../axisoInstance';
 import { toast } from 'react-toastify';
-
+import FinancialHealth from '../FinancialHealth';
 // Add this CSS either in a separate file or using a CSS-in-JS solution
 const loadingStyles = `
   .loading-spinner {
@@ -74,6 +74,7 @@ const Main = () => {
             {userData ? (
                 <>
                     <Summary data={userData} />
+                    <FinancialHealth data={userData}/>
                     <Charts data={userData} />
                 </>
             ) : (
