@@ -17,9 +17,9 @@ const LandingPage = () => {
             <Link to="/login" className="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors mr-2">
               <FaSignInAlt className="inline mr-2" /> Sign In
             </Link>
-            <Link to="/signup" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-400 transition-colors">
+            {/* <Link to="/signup" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-400 transition-colors">
               <FaUserPlus className="inline mr-2" /> Sign Up
-            </Link>
+            </Link> */}
           </div>
         </motion.div>
       </motion.nav>
