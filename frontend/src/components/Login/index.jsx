@@ -19,10 +19,10 @@ const Login = () => {
     try {
       const response = await axiosInstance.post('/login', data);
       const token = response.data.data;
-      console.log("here1",token);
+      //console.log("here1",token);
       if (token) {
         localStorage.setItem('token', token);
-        //toast.success('Login successful');
+        toast.success('Login successful');
         navigate('/'); // Navigate to the main page after successful login
       } else {
         setError('Invalid login response');

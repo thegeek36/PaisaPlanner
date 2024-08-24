@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axisoInstance';
 import loginImage from '../../assets/login.jpg'; // Ensure this path is correct
 
 const Signup = () => {
@@ -17,27 +17,29 @@ const Signup = () => {
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value });
     };
-
+ 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const url = "https://paisaplanner-1.onrender.com/api/register";
-            const { data: res } = await axios.post(url, data, {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            });
-            console.log(res.message);
-            navigate('/login');
-          } catch (err) {
-            console.error("Error: ", err);
-            if (err.response && err.response.status >= 400 && err.response.status < 500) {
-                setError(err.response.data.message);
+            const response = await axiosInstance.post('/register', data);
+            const { message } = response.data;
+            
+            if (message) {
+                toast.success('Registration successful');
+                navigate('/login'); // Navigate to the login page after successful registration
             } else {
-                setError("An unexpected error occurred. Please try again.");
+                setError('Invalid registration response');
+            }
+        } catch (error) {
+            console.error('Registration failed:', error);
+            if (error.response && error.response.status >= 400 && error.response.status < 500) {
+                setError(error.response.data.message);
+            } else {
+                setError('An unexpected error occurred. Please try again.');
             }
         }
     };
+    
 
     return (
         <div className="flex min-h-screen bg-gray-100">

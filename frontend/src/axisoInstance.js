@@ -1,7 +1,7 @@
 // src/axiosInstance.js
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
+ 
 const axiosInstance = axios.create({
     baseURL: 'https://paisaplanner-1.onrender.com/api/',
 });

@@ -20,7 +20,7 @@ const LandingPage = () => {
             {/* <Link to="/signup" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-400 transition-colors">
               <FaUserPlus className="inline mr-2" /> Sign Up
             </Link> */}
-          </div>
+          </div>  
         </motion.div>
       </motion.nav>
 
