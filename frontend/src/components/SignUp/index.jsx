@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axiosInstance from '../../axisoInstance';
 import loginImage from '../../assets/login.jpg'; // Ensure this path is correct
-
+import { toast } from 'react-toastify';
 const Signup = () => {
     const [error, setError] = useState("");
     const [data, setData] = useState({
